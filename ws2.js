@@ -10,7 +10,7 @@ const port = 3000;
 // app.use(express.json());
 
 app.get('/', (req, res) => {
-    fs.readFile('./ws.html', function (err, data) {
+    fs.readFile('./index.html', function (err, data) {
         if (err) {
             throw err;
         }
@@ -45,7 +45,7 @@ ws.on('connection', (socket) => {
         activeWindow--;
         setTimeout(() => {
             if (!activeWindow) {
-                console.log("Aktif pencere bulunamadı sunucu kapatılıyor");
+                console.log("No active window found, server is shutting down");
                 process.exit(0);
             }
         }, 1000)
@@ -60,8 +60,7 @@ server.on('upgrade', (request, socket, head) => {
 });
 
 server.listen(port, () => {
-    console.log(`Sunucu çalışıyor! http://localhost:${port}`);
-
+    console.log(`The server is running! http://localhost:${port}`);
     exec(`start chrome --app=http://localhost:${port} --disable-http-cache`, (error, stdout, stderr) => {
         if (error) {
             console.error(`exec error: ${error}`);
